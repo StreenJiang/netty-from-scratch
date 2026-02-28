@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!-- 定义日志文件存储路径 -->
+    <property name="LOG_HOME" value="./logs" />
+    <!-- 定义日志文件名称前缀 -->
+    <property name="APP_NAME" value="myapp" />
+
+    <!-- 控制台输出 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- 控制台日志格式：时间 线程 日志级别 类名 - 消息%n -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 滚动文件输出：按时间和大小 -->
+    <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 日志文件路径 -->
+        <file>${LOG_HOME}/${APP_NAME}.log</file>
+        <!-- 滚动策略：基于时间和大小 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 日志文件命名格式：按天和序号 -->
+            <fileNamePattern>${LOG_HOME}/${APP_NAME}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 每个日志文件最大 10MB -->
+            <maxFileSize>10MB</maxFileSize>
+            <!-- 最多保留 30 天历史日志 -->
+            <maxHistory>30</maxHistory>
+            <!-- 所有日志文件总大小上限，超过则删除旧日志 -->
+            <totalSizeCap>5GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <!-- 文件日志格式：时间 线程 日志级别 类名 - 消息%n -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 异步输出，提升性能（可选） -->
+    <appender name="ASYNC_FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 不丢失日志，默认如果队列满 80% 会丢弃 INFO 及以下级别日志，设置为 0 表示不丢弃 -->
+        <discardingThreshold>0</discardingThreshold>
+        <!-- 队列大小 -->
+        <queueSize>512</queueSize>
+        <!-- 异步附加器引用文件 appender -->
+        <appender-ref ref="ROLLING_FILE" />
+    </appender>
+
+    <!-- 设置不同包的日志级别 -->
+    <logger name="org.springframework" level="INFO" />
+    <logger name="com.tightening" level="DEBUG" />
+    <!-- 可添加更多自定义包 -->
+
+    <!-- 根日志级别 -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="ASYNC_FILE" />
+    </root>
+</configuration>
