@@ -1,4 +1,4 @@
-package com.netty;
+package com.netty.basic;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -13,7 +13,7 @@ public class ScatteringRead {
             ByteBuffer b1 = ByteBuffer.allocate(3);
             ByteBuffer b2 = ByteBuffer.allocate(3);
             ByteBuffer b3 = ByteBuffer.allocate(5);
-            channel.read(new ByteBuffer[] {b1, b2, b3});
+            channel.read(new ByteBuffer[]{b1, b2, b3});
             b1.flip();
             b2.flip();
             b3.flip();

@@ -1,4 +1,4 @@
-package com.netty;
+package com.netty.basic;
 
 import java.nio.ByteBuffer;
 
@@ -10,7 +10,7 @@ public class ByteBufferReadWrite {
         buffer.put((byte) 0x61); // 'a'
         debugAll(buffer);
 
-        buffer.put(new byte[] {0x62, 0x63, 0x64});
+        buffer.put(new byte[]{0x62, 0x63, 0x64});
         debugAll(buffer);
 
         buffer.flip();

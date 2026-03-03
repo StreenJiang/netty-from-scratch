@@ -1,7 +1,6 @@
-package com.netty;
+package com.netty.basic;
 
 import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 import static com.netty.util.ByteBufferUtil.debugAll;

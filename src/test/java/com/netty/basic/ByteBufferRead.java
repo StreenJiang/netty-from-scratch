@@ -1,4 +1,4 @@
-package com.netty;
+package com.netty.basic;
 
 import java.nio.ByteBuffer;
 
@@ -7,7 +7,7 @@ import static com.netty.util.ByteBufferUtil.debugAll;
 public class ByteBufferRead {
     public static void main(String[] args) {
         ByteBuffer buffer = ByteBuffer.allocate(10);
-        buffer.put(new byte[] {'a', 'b', 'c', 'd'});
+        buffer.put(new byte[]{'a', 'b', 'c', 'd'});
         buffer.flip();
 
         // 从头开始读

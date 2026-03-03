@@ -1,4 +1,4 @@
-package com.netty;
+package com.netty.basic;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

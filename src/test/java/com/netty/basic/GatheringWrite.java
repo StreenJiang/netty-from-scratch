@@ -1,4 +1,4 @@
-package com.netty;
+package com.netty.basic;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -15,7 +15,7 @@ public class GatheringWrite {
         ByteBuffer b3 = StandardCharsets.UTF_8.encode("你好");
 
         try (FileChannel channel = new RandomAccessFile("src/test/resources/word2.txt", "rw").getChannel()) {
-            channel.write(new ByteBuffer[] {b1, b2, b3});
+            channel.write(new ByteBuffer[]{b1, b2, b3});
 
             debugAll(b1);
             debugAll(b2);

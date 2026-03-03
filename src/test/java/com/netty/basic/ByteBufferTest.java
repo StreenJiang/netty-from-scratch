@@ -1,4 +1,4 @@
-package com.netty;
+package com.netty.basic;
 
 
 import lombok.extern.slf4j.Slf4j;
