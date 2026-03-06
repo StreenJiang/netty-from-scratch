@@ -38,11 +38,29 @@ public class WriteServer {
                         sb.append("a");
                     }
 
+                    // 2. 写入数据
                     ByteBuffer buffer = StandardCharsets.UTF_8.encode(sb.toString());
-                    while (buffer.hasRemaining()) {
-                        int len = client.write(buffer);
-                        // 2
-                        System.out.println("写入长度：" + len);
+                    int len = client.write(buffer);
+                    System.out.println("写入长度：" + len);
+
+                    // 3. 判断是否还有剩余数据未发送完
+                    if (buffer.hasRemaining()) {
+                        // 4. 注册‘可写事件’
+                        key.interestOps(key.interestOps() | SelectionKey.OP_WRITE);
+                        // 5. 添加附件
+                        key.attach(buffer);
+                    }
+                } else if (key.isWritable()) {
+                    ByteBuffer buffer = (ByteBuffer) key.attachment();
+                    SocketChannel channel = (SocketChannel) key.channel();
+                    int len = channel.write(buffer);
+                    System.out.println("【可写事件】写入长度：" + len);
+
+                    // 6. 清理操作
+                    if (!buffer.hasRemaining()) {
+                        key.attach(null);
+                        // key.cancel(); // * 为什么不用 cancel？
+                        key.interestOps(key.interestOps() ^ SelectionKey.OP_WRITE);
                     }
                 }
             }
